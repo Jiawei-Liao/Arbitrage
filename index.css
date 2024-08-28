@@ -1,0 +1,65 @@
+.mdl-card__title-text {
+    padding-left: 0.6%;
+}
+
+.hr {
+    padding: 0%;
+    margin: 0%;
+    width: 96%;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+.api-input {
+    padding-left: 2%;
+}
+
+.hr-form-break {
+    margin-top: 3%;
+}
+
+.sports-checkbox {
+    padding-left: 2%;
+    padding-bottom: 3px;
+    padding-top: 3px;
+}
+
+.arbitrage-table {
+    margin: 2%;
+}
+
+.arbitrage-table-p {
+    margin: 1%;
+}
+
+.arbitrage-table-option {
+    margin-left: 2%;
+    width: 30%;
+    border: 1px solid black;
+    box-shadow: 1px 1px 1px 1px #888888;
+    float: left;
+}
+
+.arbitrage-table-option-p {
+    margin: 0%;
+    text-align: center;
+}
+
+.arbitrage-table-option-flex {
+    display: flex;
+}
+
+.arbitrage-table-bet {
+    margin: 0%;
+    margin-left: 2%;
+}
+
+.bet-type {
+    margin-left: 2%;
+    margin-bottom: 1.5%;
+}
+
+.bet-type-p {
+    margin: 0%;
+    
+}
