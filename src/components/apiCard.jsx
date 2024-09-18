@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Paper, Typography, Divider, TextField, Button, Alert } from '@mui/material';
 
 export default function APICard({ APIKey, setAPIKey, setSports }) {
@@ -7,27 +7,32 @@ export default function APICard({ APIKey, setAPIKey, setSports }) {
     const [error, setError] = useState(false);
     const [success, setSuccess] = useState(false);
 
-    useEffect(() => {
-        validate();
-    }, []);
-
-    async function validate() {
+    const validate = useCallback(async () => {
         const targetUrl = `https://api.the-odds-api.com/v4/sports/?apiKey=${tempAPIKey}`;
-        const response = await fetch(targetUrl);
-
-        if (!response.ok) {
+        try {
+            const response = await fetch(targetUrl);
+            if (!response.ok) {
+                setError(true);
+                setSuccess(false);
+                setQuota(null);
+            } else {
+                const data = await response.json();
+                setSports(data);
+                setQuota(response.headers.get('x-requests-remaining'));
+                setAPIKey(tempAPIKey);
+                setError(false);
+                setSuccess(true);
+            }
+        } catch (err) {
             setError(true);
             setSuccess(false);
             setQuota(null);
-        } else {
-            const data = await response.json();
-            setSports(data);
-            setQuota(response.headers.get('x-requests-remaining'));
-            setAPIKey(tempAPIKey);
-            setError(false);
-            setSuccess(true);
         }
-    }
+    }, [tempAPIKey, setAPIKey, setSports]);
+
+    useEffect(() => {
+        validate();
+    }, [validate]);
 
     return (
         <Paper sx={{ width: 500, p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
