@@ -17,11 +17,11 @@ function App() {
     const [APIKey, setAPIKey] = useState('24c7a9bc2b6e742701f6f352ee34048b')
     const [sports, setSports] = useState([])
     const isMobile = useMediaQuery('(max-width:600px)');
-
+    
     const components = [
         <APICard key="apiCard" APIKey={APIKey} setAPIKey={setAPIKey} setSports={setSports} />,
         <SelectTool key="selectTool" />,
-        <SelectRegionSports key="selectRegionSports" />,
+        <SelectRegionSports key="selectRegionSports" sports={sports} />,
         <Arbitrage key="arbitrage" />,
     ]
 
