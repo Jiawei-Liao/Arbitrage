@@ -1,38 +1,36 @@
-import { useEffect, useState, useCallback } from 'react';
-import { Paper, Typography, Divider, TextField, Button, Alert } from '@mui/material';
+import { useState, useCallback } from 'react'
+import { Paper, Typography, Divider, TextField, Button, Alert } from '@mui/material'
+
+import DEFAULT_API_KEY from '../../DefaultAPIKey'
 
 export default function APICard({ APIKey, setAPIKey, setSports }) {
-    const [tempAPIKey, setTempAPIKey] = useState(APIKey);
-    const [quota, setQuota] = useState(null);
-    const [error, setError] = useState(false);
-    const [success, setSuccess] = useState(false);
+    const [tempAPIKey, setTempAPIKey] = useState(APIKey)
+    const [quota, setQuota] = useState(null)
+    const [error, setError] = useState(false)
+    const [success, setSuccess] = useState(false)
 
     const validate = useCallback(async () => {
-        const targetUrl = `https://api.the-odds-api.com/v4/sports/?apiKey=${tempAPIKey}`;
+        const targetUrl = `https://api.the-odds-api.com/v4/sports/?apiKey=${tempAPIKey}`
         try {
-            const response = await fetch(targetUrl);
+            const response = await fetch(targetUrl)
             if (!response.ok) {
-                setError(true);
-                setSuccess(false);
-                setQuota(null);
+                setError(true)
+                setSuccess(false)
+                setQuota(null)
             } else {
-                const data = await response.json();
-                setSports(data);
-                setQuota(response.headers.get('x-requests-remaining'));
-                setAPIKey(tempAPIKey);
-                setError(false);
-                setSuccess(true);
+                const data = await response.json()
+                setSports(data)
+                setQuota(response.headers.get('x-requests-remaining'))
+                setAPIKey(tempAPIKey)
+                setError(false)
+                setSuccess(true)
             }
         } catch (err) {
-            setError(true);
-            setSuccess(false);
-            setQuota(null);
+            setError(true)
+            setSuccess(false)
+            setQuota(null)
         }
-    }, [tempAPIKey, setAPIKey, setSports]);
-
-    useEffect(() => {
-        validate();
-    }, [validate]);
+    }, [tempAPIKey, setAPIKey, setSports])
 
     return (
         <Paper sx={{ width: 500, p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -69,6 +67,11 @@ export default function APICard({ APIKey, setAPIKey, setSports }) {
                     Invalid API key.
                 </Alert>
             )}
+            {(APIKey === DEFAULT_API_KEY) && (quota === null) && (
+                <Alert severity="info" sx={{ mt: 2 }}>
+                    Note: You are using the default API key
+                </Alert>
+            )}
         </Paper>
-    );
+    )
 }
