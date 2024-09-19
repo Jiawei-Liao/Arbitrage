@@ -7,8 +7,8 @@ on:
       - main
 
 jobs:
-  build:
-    name: Build Web Application
+  build-and-test:
+    name: Build and Test Web Application
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -19,6 +19,8 @@ jobs:
           node-version: 20.x
       - name: Install Dependencies
         run: npm ci
+      - name: Run Tests
+        run: npm test -- --coverage
       - name: Build Application
         run: npm run build
       - name: Upload Artifact for Deployment
@@ -29,7 +31,7 @@ jobs:
   deploy:
     name: Deploy Web Application
     runs-on: ubuntu-latest
-    needs: build
+    needs: build-and-test
     if: github.ref == 'refs/heads/main'
     steps:
       - name: Download Artifact for Deployment
