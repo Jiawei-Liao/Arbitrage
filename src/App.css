@@ -14,7 +14,7 @@ html, body {
 }
 
 .nav-button {
-    min-width: calc((100% - 500px) / 2);
+    min-width: calc((100% - 550px) / 2);
     min-height: 100%;
     align-items: center;
     justify-content: center;
