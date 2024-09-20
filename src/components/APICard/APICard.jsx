@@ -24,6 +24,7 @@ export default function APICard({ APIKey, setAPIKey, setSports }) {
                 setAPIKey(tempAPIKey)
                 setError(false)
                 setSuccess(true)
+                localStorage.setItem('APIKey', tempAPIKey)
             }
         } catch (err) {
             setError(true)
@@ -33,7 +34,7 @@ export default function APICard({ APIKey, setAPIKey, setSports }) {
     }, [tempAPIKey, setAPIKey, setSports])
 
     return (
-        <Paper sx={{ width: 500, p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <Paper elevation={5} sx={{ width: 500, p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
             <Typography variant="h6">Step 1: Enter an API key</Typography>
             <Divider />
             <TextField
@@ -67,7 +68,7 @@ export default function APICard({ APIKey, setAPIKey, setSports }) {
                     Invalid API key.
                 </Alert>
             )}
-            {(APIKey === DEFAULT_API_KEY) && (quota === null) && (
+            {(tempAPIKey === DEFAULT_API_KEY) && (quota === null) && (
                 <Alert severity="info" sx={{ mt: 2 }}>
                     Note: You are using the default API key
                 </Alert>

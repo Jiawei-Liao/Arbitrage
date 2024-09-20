@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Box, useMediaQuery } from '@mui/material'
 
 import APICard from './components/APICard/APICard'
-import SelectTool from './components/selectTool'
+import SelectTool from './components/SelectTool/SelectTool'
 import SelectRegionSports from './components/selectRegionSports'
 import Arbitrage from './components/arbitrage'
 
@@ -15,23 +15,28 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 function App() {
     const [currentIndex, setCurrentIndex] = useState(0)
     const [direction, setDirection] = useState('')
-    const [APIKey, setAPIKey] = useState(DEFAULT_API_KEY)
+    const [APIKey, setAPIKey] = useState(() => {
+        return localStorage.getItem('APIKey') || DEFAULT_API_KEY
+    })
     const [sports, setSports] = useState([])
     const isMobile = useMediaQuery('(max-width:600px)')
+    const [selectedTool, setSelectedTool] = useState(() => {
+        return localStorage.getItem('selectedTool') || 'arbitrage'
+    })
     
     const components = [
         <APICard key="APICard" APIKey={APIKey} setAPIKey={setAPIKey} setSports={setSports} />,
-        <SelectTool key="selectTool" />,
+        <SelectTool key="selectTool" selectedTool={selectedTool} setSelectedTool={setSelectedTool} />,
         <SelectRegionSports key="selectRegionSports" sports={sports} />,
         <Arbitrage key="arbitrage" />,
     ]
 
-    const handleNext = () => {
+    function handleNext() {
         setDirection('right')
         setCurrentIndex((prev) => (prev + 1) % components.length)
     }
 
-    const handleBack = () => {
+    function handleBack() {
         setDirection('left')
         setCurrentIndex((prev) => (prev - 1 + components.length) % components.length)
     }

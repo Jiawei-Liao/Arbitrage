@@ -1,11 +1,19 @@
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import APICard from './APICard'
-import { mockSportsData, mockSuccessResponse, mockErrorResponse } from './mockData'
+import { mockSportsData, mockSuccessResponse, mockErrorResponse, localStorageMock } from '../../mockData'
 
 global.fetch = jest.fn()
 
+Object.defineProperty(window, 'localStorage', {
+    value: localStorageMock
+})
+
 describe('APICard Component', () => {
+    beforeEach(() => {
+        window.localStorage.clear()
+    })
+
     const mockSetAPIKey = jest.fn()
     const mockSetSports = jest.fn()
 
@@ -34,7 +42,7 @@ describe('APICard Component', () => {
         await act(async () => {
             fireEvent.click(validateButton)
         })
-
+        
         await waitFor(() => {
             expect(screen.getByText((content, element) => 
                 content.includes('Valid API key! Quota remaining:') &&
@@ -45,6 +53,7 @@ describe('APICard Component', () => {
 
         expect(mockSetAPIKey).toHaveBeenCalledWith('valid-key')
         expect(mockSetSports).toHaveBeenCalledWith(mockSportsData)
+        expect(window.localStorage.getItem('APIKey')).toBe('valid-key')
     })
 
     it('handles invalid API key', async () => {
