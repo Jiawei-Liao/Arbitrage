@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import APICard from './APICard'
-import { mockSportsData, mockSuccessResponse, mockErrorResponse, localStorageMock } from '../../mockData'
+import { mockSportsData, mockValidationSuccessResponse, mockValidationErrorResponse, localStorageMock } from '../../mockData'
 
 global.fetch = jest.fn()
 
@@ -30,7 +30,7 @@ describe('APICard Component', () => {
     })
 
     it('handles valid API key', async () => {
-        global.fetch.mockResolvedValueOnce(mockSuccessResponse)
+        global.fetch.mockResolvedValueOnce(mockValidationSuccessResponse)
 
         render(<APICard APIKey='' setAPIKey={mockSetAPIKey} setSports={mockSetSports} />)
         
@@ -57,7 +57,7 @@ describe('APICard Component', () => {
     })
 
     it('handles invalid API key', async () => {
-        global.fetch.mockResolvedValueOnce(mockErrorResponse)
+        global.fetch.mockResolvedValueOnce(mockValidationErrorResponse)
 
         render(<APICard APIKey='' setAPIKey={mockSetAPIKey} setSports={mockSetSports} />)
         

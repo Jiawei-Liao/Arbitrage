@@ -29,13 +29,13 @@ export const mockHeaders = new Headers({
     'x-requests-remaining': '100'
 })
   
-export const mockSuccessResponse = {
+export const mockValidationSuccessResponse = {
     ok: true,
     json: () => Promise.resolve(mockSportsData),
     headers: mockHeaders
 }
   
-export const mockErrorResponse = {
+export const mockValidationErrorResponse = {
     ok: false
 }
 
