@@ -3,8 +3,8 @@ import { Box, useMediaQuery } from '@mui/material'
 
 import APICard from './components/APICard/APICard'
 import SelectTool from './components/SelectTool/SelectTool'
-import SelectRegionSports from './components/selectRegionSports'
-import Arbitrage from './components/arbitrage'
+import SelectSports from './components/SelectSports/SelectSports'
+import Arbitrage from './components/Arbitrage/Arbitrage'
 
 import DEFAULT_API_KEY from './DefaultAPIKey'
 import './App.css'
@@ -18,16 +18,20 @@ function App() {
     const [APIKey, setAPIKey] = useState(() => {
         return localStorage.getItem('APIKey') || DEFAULT_API_KEY
     })
-    const [sports, setSports] = useState([])
+    const [sports, setSports] = useState(null)
     const isMobile = useMediaQuery('(max-width:600px)')
     const [selectedTool, setSelectedTool] = useState(() => {
         return localStorage.getItem('selectedTool') || 'arbitrage'
     })
-    
+    const [selectedRegion, setSelectedRegion] = useState(() => {
+        return localStorage.getItem('selectedRegion') || 'au'
+    })
+    const [selectedSports, setSelectedSports] = useState({})
+    console.log(selectedSports)
     const components = [
         <APICard key="APICard" APIKey={APIKey} setAPIKey={setAPIKey} setSports={setSports} />,
-        <SelectTool key="selectTool" selectedTool={selectedTool} setSelectedTool={setSelectedTool} />,
-        <SelectRegionSports key="selectRegionSports" sports={sports} />,
+        <SelectTool key="selectTool" selectedTool={selectedTool} setSelectedTool={setSelectedTool} selectedRegion={selectedRegion} setSelectedRegion={setSelectedRegion} />,
+        <SelectSports key="selectRegionSports" sports={sports} selectedSports={selectedSports} setSelectedSports={setSelectedSports} />,
         <Arbitrage key="arbitrage" />,
     ]
 
