@@ -1,2 +1,2 @@
-const DEFAULT_API_KEY = '24c7a9bc2b6e742701f6f352ee34048b';
-export default DEFAULT_API_KEY;
+const DEFAULT_API_KEY = '24c7a9bc2b6e742701f6f352ee34048b'
+export default DEFAULT_API_KEY
