@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/Arbitrage/static/css/main.469ba58d.css",
-    "main.js": "/Arbitrage/static/js/main.cad43271.js",
+    "main.js": "/Arbitrage/static/js/main.6ff5ee28.js",
     "static/js/453.80032b02.chunk.js": "/Arbitrage/static/js/453.80032b02.chunk.js",
     "index.html": "/Arbitrage/index.html",
     "main.469ba58d.css.map": "/Arbitrage/static/css/main.469ba58d.css.map",
-    "main.cad43271.js.map": "/Arbitrage/static/js/main.cad43271.js.map",
+    "main.6ff5ee28.js.map": "/Arbitrage/static/js/main.6ff5ee28.js.map",
     "453.80032b02.chunk.js.map": "/Arbitrage/static/js/453.80032b02.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.469ba58d.css",
-    "static/js/main.cad43271.js"
+    "static/js/main.6ff5ee28.js"
   ]
 }
