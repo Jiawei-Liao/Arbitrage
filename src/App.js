@@ -30,12 +30,25 @@ function App() {
         const storedSports = localStorage.getItem('selectedSports')
         return storedSports ? new Set(JSON.parse(storedSports)) : new Set()
     })
-    
+
+    function updateSelectedSports(sports) {
+        setSports(sports)
+        
+        const validSportsKeys = new Set(sports.map(sport => sport.key))
+        setSelectedSports(prevSelected => {
+            return new Set(
+                Array.from(prevSelected).filter(sport => validSportsKeys.has(sport))
+            )
+        })
+
+        localStorage.setItem('selectedSports', JSON.stringify(Array.from(selectedSports)))
+    }
+
     const components = [
-        <APICard key="APICard" APIKey={APIKey} setAPIKey={setAPIKey} setSports={setSports} />,
+        <APICard key="APICard" APIKey={APIKey} setAPIKey={setAPIKey} setSports={updateSelectedSports} />,
         <SelectTool key="selectTool" selectedTool={selectedTool} setSelectedTool={setSelectedTool} selectedRegion={selectedRegion} setSelectedRegion={setSelectedRegion} />,
         <SelectSports key="selectRegionSports" sports={sports} selectedSports={selectedSports} setSelectedSports={setSelectedSports} />,
-        <Arbitrage key="arbitrage" />,
+        <Arbitrage key="arbitrage" APIKey={APIKey} sports={selectedSports} region={selectedRegion} validatedAPI={sports !== null} tool={selectedTool} />,
     ]
 
     function handleNext() {
