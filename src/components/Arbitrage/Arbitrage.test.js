@@ -5,6 +5,6 @@ import Arbitrage from './Arbitrage'
 describe('Arbitrage Component', () => {
     it('renders correctly', () => {
         render(<Arbitrage />)
-        expect(screen.getByText('Step 4: Arbitrage Opportunites')).toBeInTheDocument()
+        expect(screen.getByText('Step 5: Arbitrage Opportunities')).toBeInTheDocument();
     })
 })
