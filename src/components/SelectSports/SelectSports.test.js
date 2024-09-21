@@ -10,20 +10,24 @@ describe('SelectSports Component', () => {
         jest.clearAllMocks()
     })
 
+    const renderSelectSports = (sports = null, selectedSports = new Set()) => {
+        render(<SelectSports sports={sports} selectedSports={selectedSports} setSelectedSports={setSelectedSports} />)
+    }
+
     it('renders correctly', () => {
-        render(<SelectSports sports={null} selectedSports={{}} setSelectedSports={() => {}} />)
+        renderSelectSports()
         expect(screen.getByText('Step 4: Select Sports')).toBeInTheDocument()
         expect(screen.getByText('Validate an API key to find available sports.')).toBeInTheDocument()
     })
 
     it('renders correctly with no sports', () => {
-        render(<SelectSports sports={[]} selectedSports={{}} setSelectedSports={() => {}} />)
+        renderSelectSports([])
         expect(screen.getByText('Step 4: Select Sports')).toBeInTheDocument()
         expect(screen.getByText('No sports available, try again later.')).toBeInTheDocument()
     })
 
     it('renders correctly with sports', () => {
-        render(<SelectSports sports={mockSportsData} selectedSports={{}} setSelectedSports={() => {}} />)
+        renderSelectSports(mockSportsData)
         expect(screen.getByText('Step 4: Select Sports')).toBeInTheDocument()
         expect(screen.getByText('Aussie Rules')).toBeInTheDocument()
         expect(screen.getByText('Basketball')).toBeInTheDocument()
@@ -31,7 +35,7 @@ describe('SelectSports Component', () => {
     })
 
     it('renders correctly with selected sports', () => {
-        render(<SelectSports sports={mockSportsData} selectedSports={{ aussierules_afl: true }} setSelectedSports={() => {}} />)
+        renderSelectSports(mockSportsData, new Set(['aussierules_afl']))
         expect(screen.getByText('Step 4: Select Sports')).toBeInTheDocument()
         expect(screen.getByText('Aussie Rules')).toBeInTheDocument()
         expect(screen.getByText('Basketball')).toBeInTheDocument()
@@ -40,8 +44,8 @@ describe('SelectSports Component', () => {
     })
     
     it('handles sport selection', () => {
-        const initialSelectedSports = {}
-        render(<SelectSports sports={mockSportsData} selectedSports={initialSelectedSports} setSelectedSports={setSelectedSports} />)
+        const initialSelectedSports = new Set()
+        renderSelectSports(mockSportsData, initialSelectedSports)
 
         const checkbox = screen.getByRole('checkbox', { name: /AFL - Aussie Football/i })
         fireEvent.click(checkbox)
@@ -49,14 +53,12 @@ describe('SelectSports Component', () => {
         const updaterFunction = setSelectedSports.mock.calls[0][0]
         const newState = updaterFunction(initialSelectedSports)
 
-        expect(newState).toEqual({
-            aussierules_afl: true
-        })
+        expect(newState).toEqual(new Set(['aussierules_afl']))
     })
 
     it('handles sport deselection', () => {
-        const initialSelectedSports = { aussierules_afl: true }
-        render(<SelectSports sports={mockSportsData} selectedSports={initialSelectedSports} setSelectedSports={setSelectedSports} />)
+        const initialSelectedSports = new Set(['aussierules_afl'])
+        renderSelectSports(mockSportsData, initialSelectedSports)
 
         const checkbox = screen.getByRole('checkbox', { name: /AFL - Aussie Football/i })
         fireEvent.click(checkbox)
@@ -64,60 +66,48 @@ describe('SelectSports Component', () => {
         const updaterFunction = setSelectedSports.mock.calls[0][0]
         const newState = updaterFunction(initialSelectedSports)
 
-        expect(newState).toEqual({
-            aussierules_afl: false 
-        })
+        expect(newState).toEqual(new Set())
+
     })
 
     it('handles select all', () => {
-        const initialSelectedSports = {}
-        render(<SelectSports sports={mockSportsData} selectedSports={initialSelectedSports} setSelectedSports={setSelectedSports} />)
+        const initialSelectedSports = new Set()
+        renderSelectSports(mockSportsData, initialSelectedSports)
     
         const selectAllButtons = screen.getAllByText('Select/Deselect All')
         fireEvent.click(selectAllButtons[0])
     
         expect(setSelectedSports).toHaveBeenCalledTimes(1)
         const updaterFunction = setSelectedSports.mock.calls[0][0]
-    
+        
         const newState = updaterFunction(initialSelectedSports)
-        expect(newState).toEqual({
-            aussierules_afl: true
-        })
+        expect(newState).toEqual(new Set(['aussierules_afl']))
     })
     
     it('handles deselect all', () => {
-        const initialSelectedSports = { 
-            aussierules_afl: true, 
-            basketball_nba: true, 
-            cricket_test_match: true 
-        }
-        render(<SelectSports sports={mockSportsData} selectedSports={initialSelectedSports} setSelectedSports={setSelectedSports} />)
+        const initialSelectedSports = new Set(['aussierules_afl', 'basketball_nba', 'cricket_test_match'])
+        renderSelectSports(mockSportsData, initialSelectedSports)
     
         const selectAllButtons = screen.getAllByText('Select/Deselect All')
         fireEvent.click(selectAllButtons[0])
-    
+
         expect(setSelectedSports).toHaveBeenCalledTimes(1)
         const updaterFunction = setSelectedSports.mock.calls[0][0]
     
         const newState = updaterFunction(initialSelectedSports)
     
-        expect(newState).toEqual({
-            aussierules_afl: false,
-            basketball_nba: true,
-            cricket_test_match: true
-        })
+        expect(newState).toEqual(new Set(['basketball_nba', 'cricket_test_match']))
     })
     
-
     it('handles group collapse', () => {
-        render(<SelectSports sports={mockSportsData} selectedSports={{}} setSelectedSports={() => {}} />)
+        renderSelectSports(mockSportsData)
         const groupHeader = screen.getByText('Aussie Rules')
         fireEvent.click(groupHeader)
         expect(screen.queryByText('AFL - Aussie Football')).not.toBeInTheDocument()
     })
 
     it('handles group expand', () => {
-        render(<SelectSports sports={mockSportsData} selectedSports={{}} setSelectedSports={() => {}} />)
+        renderSelectSports(mockSportsData)
         const groupHeader = screen.getByText('Aussie Rules')
         fireEvent.click(groupHeader)
         fireEvent.click(groupHeader)

@@ -8,17 +8,36 @@ export default function SelectSports({ sports, selectedSports, setSelectedSports
 
     const toggleSelectAll = (group) => {
         const groupSports = sports.filter(sport => sport.group === group)
-        const allSelected = groupSports.every(sport => selectedSports[sport.key])
-
-        const newSelection = {}
-        groupSports.forEach(sport => {
-            newSelection[sport.key] = !allSelected
+        const allSelected = groupSports.every(sport => selectedSports.has(sport.key))
+    
+        setSelectedSports(prev => {
+            const newSelection = new Set(prev)
+    
+            groupSports.forEach(sport => {
+                if (allSelected) {
+                    newSelection.delete(sport.key)
+                } else {
+                    newSelection.add(sport.key)
+                }
+            })
+    
+            localStorage.setItem('selectedSports', JSON.stringify(Array.from(newSelection)))
+            return newSelection
         })
-        setSelectedSports(prev => ({ ...prev, ...newSelection }))
     }
 
     const handleSportChange = (key) => {
-        setSelectedSports(prev => ({ ...prev, [key]: !prev[key] }))
+        setSelectedSports(prev => {
+            const updatedSet = new Set(prev)
+            
+            if (updatedSet.has(key)) {
+                updatedSet.delete(key)
+            } else {
+                updatedSet.add(key)
+            }
+            localStorage.setItem('selectedSports', JSON.stringify(Array.from(updatedSet)))
+            return updatedSet
+        })
     }
 
     const toggleGroupCollapse = (group) => {
@@ -65,7 +84,7 @@ export default function SelectSports({ sports, selectedSports, setSelectedSports
                                         <Box key={sport.key} sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
                                             <Checkbox
                                                 id={`checkbox-${sport.key}`}
-                                                checked={!!selectedSports[sport.key]}
+                                                checked={selectedSports.has(sport.key)}
                                                 onChange={() => handleSportChange(sport.key)}
                                                 sx={{ '&.Mui-checked': { color: '#007bff' } }}
                                             />

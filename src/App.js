@@ -26,8 +26,11 @@ function App() {
     const [selectedRegion, setSelectedRegion] = useState(() => {
         return localStorage.getItem('selectedRegion') || 'au'
     })
-    const [selectedSports, setSelectedSports] = useState({})
-    console.log(selectedSports)
+    const [selectedSports, setSelectedSports] = useState(() => {
+        const storedSports = localStorage.getItem('selectedSports')
+        return storedSports ? new Set(JSON.parse(storedSports)) : new Set()
+    })
+    
     const components = [
         <APICard key="APICard" APIKey={APIKey} setAPIKey={setAPIKey} setSports={setSports} />,
         <SelectTool key="selectTool" selectedTool={selectedTool} setSelectedTool={setSelectedTool} selectedRegion={selectedRegion} setSelectedRegion={setSelectedRegion} />,
