@@ -34,7 +34,7 @@ export default function APICard({ APIKey, setAPIKey, setSports }) {
     }, [tempAPIKey, setAPIKey, setSports])
 
     return (
-        <Paper elevation={5} sx={{ width: { xs: '100%', sm: 500 }, maxWidth: { xs: 500 }, p: 2, display: 'flex', flexDirection: 'column', gap: 2, borderRadius: '12px', bgcolor: '#f5f5f5' }}>
+        <Paper elevation={5} sx={{ width: { sm: 500 }, maxWidth: { xs: 500 }, p: 2, display: 'flex', flexDirection: 'column', gap: 2, borderRadius: '12px', bgcolor: '#f5f5f5' }}>
             <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>Step 1: Enter an API key</Typography>
             <Divider />
             <TextField

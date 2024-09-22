@@ -126,7 +126,7 @@ export default function Calculate({ match }) {
     
     return (
         match ? (
-            <Paper id='calculate' elevation={5} sx={{ width: { xs: '100%', sm: 500 }, maxWidth: { xs: 500 }, p: 2, mt: 2, display: 'flex', flexDirection: 'column', gap: 2, borderRadius: '12px', bgcolor: '#f5f5f5'}}>
+            <Paper id='calculate' elevation={5} sx={{ width: { sm: 500 }, maxWidth: { xs: 500 }, p: 2, mt: 2, display: 'flex', flexDirection: 'column', gap: 2, borderRadius: '12px', bgcolor: '#f5f5f5'}}>
                 <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>Calculate Bet</Typography>
                 <Divider />
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -205,6 +205,6 @@ export default function Calculate({ match }) {
                 )}
 
             </Paper>
-        ) : null
+        ) : <Box id='calculate' />
     )
 }

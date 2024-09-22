@@ -53,8 +53,10 @@ function App() {
         setSelectedMatch(match)
         setCurrentIndex(4)
         if (isMobile) {
-            const calculate = document.getElementById('calculate')
-            calculate.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            const calculateElement = document.getElementById('calculate')
+            if (calculateElement) {
+                calculateElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            }
         }
     }
 
@@ -84,7 +86,7 @@ function App() {
                 <SelectSports key="selectRegionSports" sports={sports} selectedSports={selectedSports} setSelectedSports={setSelectedSports} />
                 <Arbitrage key="arbitrage" APIKey={APIKey} sports={selectedSports} region={selectedRegion} bookmakers={selectedBookmakers} validatedAPI={sports !== null} tool={selectedTool} clickMatch={clickMatch} />
                 <Calculate match={selectedMatch} />
-                <Box sx={{ height: 100 }} />
+                <Box sx={{ height: 10 }} />
             </Box>
         ) : ( 
             <Box className='container'>
