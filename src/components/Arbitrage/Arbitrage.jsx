@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Paper, Typography, Box, Divider, Alert, LinearProgress, Button, useMediaQuery } from '@mui/material'
+import { Paper, Typography, Box, Divider, Alert, LinearProgress, Button } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
 import { findArbitrageOpportunities } from './utils'
 import ArbitrageCard from './ArbitrageCard'

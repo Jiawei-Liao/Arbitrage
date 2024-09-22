@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Paper, Typography, Divider, Box, Alert, Checkbox, Button, useMediaQuery } from '@mui/material'
+import { Paper, Typography, Divider, Box, Alert, Checkbox, Button } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 
