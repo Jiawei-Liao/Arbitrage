@@ -80,7 +80,7 @@ function App() {
 
     return (
         isMobile ? (
-            <Box sx={{ p: 2, overflowY: 'auto', maxHeight: '100vh' }}>
+            <Box sx={{ padding: 2 }}>
                 <APICard key="APICard" APIKey={APIKey} setAPIKey={setAPIKey} setSports={updateSelectedSports} />,
                 <SelectTool key="selectTool" selectedTool={selectedTool} setSelectedTool={setSelectedTool} selectedRegion={selectedRegion} setSelectedRegion={setSelectedRegion} selectedBookmakers={selectedBookmakers} setSelectedBookmakers={setSelectedBookmakers}/>
                 <SelectSports key="selectRegionSports" sports={sports} selectedSports={selectedSports} setSelectedSports={setSelectedSports} />
