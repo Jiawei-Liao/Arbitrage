@@ -68,7 +68,7 @@ export default function Arbitrage({ APIKey, sports, region, bookmakers, validate
     }
 
     return (
-        <Paper elevation={5} sx={{ maxWidth: 500, maxHeight: useMediaQuery('(max-width:600px)') ? 'none' : 500, p: 3, display: 'flex', flexDirection: 'column', gap: 2, overflowY: useMediaQuery('(max-width:600px)') ? 'visible' : 'auto', borderRadius: '12px', bgcolor: '#f5f5f5' }}>
+        <Paper elevation={5} sx={{ width: { xs: '100%', sm: 500 }, maxWidth: { xs: 500 }, maxHeight: { xs: 'none', sm: 500 }, p: 3, mt: 2, display: 'flex', flexDirection: 'column', gap: 2, overflowY: { xs: 'visible', sm: 'auto' }, borderRadius: '12px', bgcolor: '#f5f5f5' }}>
             <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>Step 6: Arbitrage Opportunities</Typography>
             <Divider />
             
