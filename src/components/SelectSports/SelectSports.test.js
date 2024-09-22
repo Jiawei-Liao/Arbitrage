@@ -10,7 +10,7 @@ describe('SelectSports Component', () => {
         jest.clearAllMocks()
     })
 
-    const renderSelectSports = (sports = null, selectedSports = new Set()) => {
+    function renderSelectSports(sports = null, selectedSports = new Set()) {
         render(<SelectSports sports={sports} selectedSports={selectedSports} setSelectedSports={setSelectedSports} />)
     }
 

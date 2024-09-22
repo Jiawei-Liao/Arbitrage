@@ -3,8 +3,12 @@ import '@testing-library/jest-dom'
 import Arbitrage from './Arbitrage'
 
 describe('Arbitrage Component', () => {
-    it('renders correctly', () => {
+    function renderArbitrage() {
         render(<Arbitrage />)
+    }
+
+    it('renders correctly', () => {
+        renderArbitrage()
         expect(screen.getByText('Step 6: Arbitrage Opportunities')).toBeInTheDocument()
     })
 })

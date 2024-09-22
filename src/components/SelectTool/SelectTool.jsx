@@ -102,10 +102,6 @@ export default function SelectTool({ selectedTool, setSelectedTool, selectedRegi
                     setSelectedBookmakers(new Set(EUBookmakers))
                     localStorage.setItem('selectedBookmakers', JSON.stringify(EUBookmakers))
                     break
-                default:
-                    setSelectedBookmakers(new Set())
-                    localStorage.setItem('selectedBookmakers', JSON.stringify([]))
-                    break
             }
         }
     }
@@ -122,62 +118,34 @@ export default function SelectTool({ selectedTool, setSelectedTool, selectedRegi
     }
 
     function renderBookmakers() {
-        switch (selectedRegion) {
-            case 'au':
-                return AUBookmakers.map(bookmaker => (
-                    <Button
-                        key={bookmaker}
-                        variant="contained"
-                        color={selectedBookmakers.has(bookmaker) ? 'primary' : 'inherit'}
-                        onClick={() => handleBookmakerSelected(bookmaker)}
-                        size='small'
-                    >
-                        {bookmakerKeyToName[bookmaker]}
-                    </Button>
-                ))
-            case 'us':
-                return USBookmakers.map(bookmaker => (
-                    <Button
-                        key={bookmaker}
-                        variant="contained"
-                        color={selectedBookmakers.has(bookmaker) ? 'primary' : 'inherit'}
-                        onClick={() => handleBookmakerSelected(bookmaker)}
-                        size='small'
-                    >
-                        {bookmakerKeyToName[bookmaker]}
-                    </Button>
-                ))
-            case 'uk':
-                return UKBookmakers.map(bookmaker => (
-                    <Button
-                        key={bookmaker}
-                        variant="contained"
-                        color={selectedBookmakers.has(bookmaker) ? 'primary' : 'inherit'}
-                        onClick={() => handleBookmakerSelected(bookmaker)}
-                        size='small'
-                    >
-                        {bookmakerKeyToName[bookmaker]}
-                    </Button>
-                ))
-            case 'eu':
-                return EUBookmakers.map(bookmaker => (
-                    <Button
-                        key={bookmaker}
-                        variant="contained"
-                        color={selectedBookmakers.has(bookmaker) ? 'primary' : 'inherit'}
-                        onClick={() => handleBookmakerSelected(bookmaker)}
-                        size='small'
-                    >
-                        {bookmakerKeyToName[bookmaker]}
-                    </Button>
-                ))
-            default:
-                return (
-                    <Alert severity="error" sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-                        No bookmakers available for this region.
-                    </Alert>
-                )
+        const regionBookmakers = {
+            au: AUBookmakers,
+            us: USBookmakers,
+            uk: UKBookmakers,
+            eu: EUBookmakers,
         }
+    
+        const bookmakers = regionBookmakers[selectedRegion]
+    
+        if (!bookmakers) {
+            return (
+                <Alert severity="error" sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                    No bookmakers available for this region.
+                </Alert>
+            )
+        }
+    
+        return bookmakers.map(bookmaker => (
+            <Button
+                key={bookmaker}
+                variant="contained"
+                color={selectedBookmakers.has(bookmaker) ? 'primary' : 'inherit'}
+                onClick={() => handleBookmakerSelected(bookmaker)}
+                size='small'
+            >
+                {bookmakerKeyToName[bookmaker]}
+            </Button>
+        ))
     }
 
     return (

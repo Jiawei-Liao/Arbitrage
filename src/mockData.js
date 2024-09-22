@@ -1,3 +1,19 @@
+
+export const localStorageMock = (function() {
+    let store = {}
+    return {
+        getItem: function(key) {
+            return store[key] || null
+        },
+        setItem: function(key, value) {
+            store[key] = value.toString()
+        },
+        clear: function() {
+            store = {}
+        }
+    }
+})()
+
 export const mockSportsData = [
     {
         "key": "aussierules_afl",
@@ -39,17 +55,15 @@ export const mockValidationErrorResponse = {
     ok: false
 }
 
-export const localStorageMock = (function() {
-    let store = {}
-    return {
-        getItem: function(key) {
-            return store[key] || null
-        },
-        setItem: function(key, value) {
-            store[key] = value.toString()
-        },
-        clear: function() {
-            store = {}
-        }
-    }
-})()
+export const mockMatchData = {
+    awayTeam: "Chicago Blackhawks",
+    awayTeamBookmaker: "TABtouch",
+    awayTeamOdds: 1.93,
+    commence_time: "2024-10-09T02:10:00Z",
+    group: "NHL",
+    homeTeam: "Utah Hockey Club",
+    homeTeamBookmaker: "TABtouch", 
+    homeTeamOdds: 3.2,
+    odds: 0.8306347150259068,
+    profitPercentage: "16.94"
+}

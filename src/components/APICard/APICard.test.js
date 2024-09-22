@@ -21,8 +21,12 @@ describe('APICard Component', () => {
         jest.clearAllMocks()
     })
 
-    it('renders correctly', () => {
+    function renderAPICard(APIKey = '') {
         render(<APICard APIKey='' setAPIKey={mockSetAPIKey} setSports={mockSetSports} />)
+    }
+
+    it('renders correctly', () => {
+        renderAPICard()
         expect(screen.getByText('Step 1: Enter an API key')).toBeInTheDocument()
         expect(screen.getByLabelText('API Key')).toBeInTheDocument()
         expect(screen.getByText('Validate Key')).toBeInTheDocument()
@@ -32,7 +36,7 @@ describe('APICard Component', () => {
     it('handles valid API key', async () => {
         global.fetch.mockResolvedValueOnce(mockValidationSuccessResponse)
 
-        render(<APICard APIKey='' setAPIKey={mockSetAPIKey} setSports={mockSetSports} />)
+        renderAPICard()
         
         const input = screen.getByLabelText('API Key')
         fireEvent.change(input, { target: { value: 'valid-key' } })
@@ -59,8 +63,8 @@ describe('APICard Component', () => {
     it('handles invalid API key', async () => {
         global.fetch.mockResolvedValueOnce(mockValidationErrorResponse)
 
-        render(<APICard APIKey='' setAPIKey={mockSetAPIKey} setSports={mockSetSports} />)
-        
+        renderAPICard()
+
         const input = screen.getByLabelText('API Key')
         fireEvent.change(input, { target: { value: 'invalid-key' } })
         expect(input).toHaveValue('invalid-key')
@@ -81,7 +85,7 @@ describe('APICard Component', () => {
     it('handles fetch error', async () => {
         global.fetch.mockRejectedValueOnce(new Error('Fetch failed'))
 
-        render(<APICard APIKey='' setAPIKey={mockSetAPIKey} setSports={mockSetSports} />)
+        renderAPICard()
 
         const input = screen.getByLabelText('API Key')
         fireEvent.change(input, { target: { value: 'invalid-key' } })
@@ -103,8 +107,8 @@ describe('APICard Component', () => {
     it('opens link in new tab', () => {
         window.open = jest.fn()
 
-        render(<APICard APIKey='' setAPIKey={mockSetAPIKey} setSports={mockSetSports} />)
-
+        renderAPICard()
+        
         const getAPIKeyButton = screen.getByText('Get an API Key')
         fireEvent.click(getAPIKeyButton)
 

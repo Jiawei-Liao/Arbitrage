@@ -123,7 +123,7 @@ export default function Calculate({ match }) {
             }
         }
     }, [match, selectedTeam])    
-    console.log(match)
+    
     return (
         match ? (
             <Paper id='calculate' elevation={5} sx={{ width: { xs: '100%', sm: 500 }, maxWidth: { xs: 500 }, p: 2, mt: 2, display: 'flex', flexDirection: 'column', gap: 2, borderRadius: '12px', bgcolor: '#f5f5f5'}}>
