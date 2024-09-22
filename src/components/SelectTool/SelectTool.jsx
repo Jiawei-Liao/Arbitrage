@@ -102,6 +102,9 @@ export default function SelectTool({ selectedTool, setSelectedTool, selectedRegi
                     setSelectedBookmakers(new Set(EUBookmakers))
                     localStorage.setItem('selectedBookmakers', JSON.stringify(EUBookmakers))
                     break
+                default:
+                    setSelectedBookmakers(new Set())
+                    localStorage.setItem('selectedBookmakers', JSON.stringify([]))
             }
         }
     }
