@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { Paper, Typography, Divider, Box, Select, MenuItem, FormControl, InputLabel, TextField, Alert, useMediaQuery } from '@mui/material'
+import { Paper, Typography, Divider, Box, Select, MenuItem, FormControl, InputLabel, TextField, Alert } from '@mui/material'
 
 export default function Calculate({ match }) {
     const [roundingOption, setRoundingOption] = useState('none')
