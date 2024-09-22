@@ -35,7 +35,7 @@ function App() {
         return storedBookmakers ? new Set(JSON.parse(storedBookmakers)) : new Set(['betfair_ex_au', 'betr_au', 'betright', 'bluebet', 'ladbrokes_au', 'neds', 'playup', 'pointsbetau', 'sportsbet', 'tab', 'tabtouch', 'topsport', 'unibet'])
     })
     const [selectedMatch, setSelectedMatch] = useState(null)
-
+    const isMobile = useMediaQuery('(max-width:600px)')
     function updateSelectedSports(sports) {
         setSports(sports)
         
@@ -52,6 +52,10 @@ function App() {
     function clickMatch(match) {
         setSelectedMatch(match)
         setCurrentIndex(4)
+        if (isMobile) {
+            const calculate = document.getElementById('calculate')
+            calculate.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
     }
 
     const components = [
@@ -73,14 +77,14 @@ function App() {
     }
 
     return (
-        useMediaQuery('(max-width:600px)') ? (
+        isMobile ? (
             <Box sx={{ p: 2, overflowY: 'auto', maxHeight: '100vh' }}>
                 <APICard key="APICard" APIKey={APIKey} setAPIKey={setAPIKey} setSports={updateSelectedSports} />,
-                <SelectTool key="selectTool" selectedTool={selectedTool} setSelectedTool={setSelectedTool} selectedRegion={selectedRegion} setSelectedRegion={setSelectedRegion} selectedBookmakers={selectedBookmakers} setSelectedBookmakers={setSelectedBookmakers}/>,
-                <SelectSports key="selectRegionSports" sports={sports} selectedSports={selectedSports} setSelectedSports={setSelectedSports} />,
-                <Arbitrage key="arbitrage" APIKey={APIKey} sports={selectedSports} region={selectedRegion} bookmakers={selectedBookmakers} validatedAPI={sports !== null} tool={selectedTool} clickMatch={clickMatch} />,
+                <SelectTool key="selectTool" selectedTool={selectedTool} setSelectedTool={setSelectedTool} selectedRegion={selectedRegion} setSelectedRegion={setSelectedRegion} selectedBookmakers={selectedBookmakers} setSelectedBookmakers={setSelectedBookmakers}/>
+                <SelectSports key="selectRegionSports" sports={sports} selectedSports={selectedSports} setSelectedSports={setSelectedSports} />
+                <Arbitrage key="arbitrage" APIKey={APIKey} sports={selectedSports} region={selectedRegion} bookmakers={selectedBookmakers} validatedAPI={sports !== null} tool={selectedTool} clickMatch={clickMatch} />
                 <Calculate match={selectedMatch} />
-                <Box sx={{ height: 30 }} />
+                <Box sx={{ height: 100 }} />
             </Box>
         ) : ( 
             <Box className='container'>

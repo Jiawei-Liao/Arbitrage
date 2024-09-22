@@ -212,7 +212,7 @@ export default function SelectTool({ selectedTool, setSelectedTool, selectedRegi
                 <Paper elevation={5} sx={{ maxWidth: 500, p: 2, display: 'flex', flexDirection: 'column', gap: 2, borderRadius: '12px', bgcolor: '#f5f5f5' }}>
                     <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>Step 3: Select Region</Typography>
                     <Divider />
-                    <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', gap: 1, px: 3 }}>
                         {['au', 'us', 'uk', 'eu'].map(region => (
                             <Button
                                 key={region}
