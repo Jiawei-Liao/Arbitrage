@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Paper, Typography, Divider, Box, Alert, Checkbox, Button } from '@mui/material'
+import { Paper, Typography, Divider, Box, Alert, Checkbox, Button, useMediaQuery } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 
@@ -50,8 +50,8 @@ export default function SelectSports({ sports, selectedSports, setSelectedSports
     }, {}) : {}
 
     return (
-        <Paper elevation={5} sx={{ width: 500, maxHeight: 500, p: 3, display: 'flex', flexDirection: 'column', gap: 2, overflowY: 'auto', borderRadius: '12px', bgcolor: '#f5f5f5' }}>
-            <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>Step 4: Select Sports</Typography>
+        <Paper elevation={5} sx={{ maxWidth: 500, maxHeight: useMediaQuery('(max-width:600px)') ? 'none' : 500, p: 3, display: 'flex', flexDirection: 'column', gap: 2, overflowY: useMediaQuery('(max-width:600px)') ? 'visible' : 'auto', borderRadius: '12px', bgcolor: '#f5f5f5' }}>
+            <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>Step 5: Select Sports</Typography>
             <Divider />
             {sports === null ? (
                 <Box sx={{ height: 200, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

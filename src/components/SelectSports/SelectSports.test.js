@@ -16,19 +16,19 @@ describe('SelectSports Component', () => {
 
     it('renders correctly', () => {
         renderSelectSports()
-        expect(screen.getByText('Step 4: Select Sports')).toBeInTheDocument()
+        expect(screen.getByText('Step 5: Select Sports')).toBeInTheDocument()
         expect(screen.getByText('Validate an API key to find available sports.')).toBeInTheDocument()
     })
 
     it('renders correctly with no sports', () => {
         renderSelectSports([])
-        expect(screen.getByText('Step 4: Select Sports')).toBeInTheDocument()
+        expect(screen.getByText('Step 5: Select Sports')).toBeInTheDocument()
         expect(screen.getByText('No sports available, try again later.')).toBeInTheDocument()
     })
 
     it('renders correctly with sports', () => {
         renderSelectSports(mockSportsData)
-        expect(screen.getByText('Step 4: Select Sports')).toBeInTheDocument()
+        expect(screen.getByText('Step 5: Select Sports')).toBeInTheDocument()
         expect(screen.getByText('Aussie Rules')).toBeInTheDocument()
         expect(screen.getByText('Basketball')).toBeInTheDocument()
         expect(screen.getByText('Cricket')).toBeInTheDocument()
@@ -36,7 +36,7 @@ describe('SelectSports Component', () => {
 
     it('renders correctly with selected sports', () => {
         renderSelectSports(mockSportsData, new Set(['aussierules_afl']))
-        expect(screen.getByText('Step 4: Select Sports')).toBeInTheDocument()
+        expect(screen.getByText('Step 5: Select Sports')).toBeInTheDocument()
         expect(screen.getByText('Aussie Rules')).toBeInTheDocument()
         expect(screen.getByText('Basketball')).toBeInTheDocument()
         expect(screen.getByText('Cricket')).toBeInTheDocument()

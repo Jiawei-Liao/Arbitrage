@@ -5,6 +5,7 @@ import APICard from './components/APICard/APICard'
 import SelectTool from './components/SelectTool/SelectTool'
 import SelectSports from './components/SelectSports/SelectSports'
 import Arbitrage from './components/Arbitrage/Arbitrage'
+import Calculate from './components/Calculate/Calculate'
 
 import DEFAULT_API_KEY from './DefaultAPIKey'
 import './App.css'
@@ -19,7 +20,6 @@ function App() {
         return localStorage.getItem('APIKey') || DEFAULT_API_KEY
     })
     const [sports, setSports] = useState(null)
-    const isMobile = useMediaQuery('(max-width:600px)')
     const [selectedTool, setSelectedTool] = useState(() => {
         return localStorage.getItem('selectedTool') || 'arbitrage'
     })
@@ -30,6 +30,11 @@ function App() {
         const storedSports = localStorage.getItem('selectedSports')
         return storedSports ? new Set(JSON.parse(storedSports)) : new Set()
     })
+    const [selectedBookmakers, setSelectedBookmakers] = useState(() => {
+        const storedBookmakers = localStorage.getItem('selectedBookmakers')
+        return storedBookmakers ? new Set(JSON.parse(storedBookmakers)) : new Set(['betfair_ex_au', 'betr_au', 'betright', 'bluebet', 'ladbrokes_au', 'neds', 'playup', 'pointsbetau', 'sportsbet', 'tab', 'tabtouch', 'topsport', 'unibet'])
+    })
+    const [selectedMatch, setSelectedMatch] = useState(null)
 
     function updateSelectedSports(sports) {
         setSports(sports)
@@ -44,11 +49,17 @@ function App() {
         localStorage.setItem('selectedSports', JSON.stringify(Array.from(selectedSports)))
     }
 
+    function clickMatch(match) {
+        setSelectedMatch(match)
+        setCurrentIndex(4)
+    }
+
     const components = [
         <APICard key="APICard" APIKey={APIKey} setAPIKey={setAPIKey} setSports={updateSelectedSports} />,
-        <SelectTool key="selectTool" selectedTool={selectedTool} setSelectedTool={setSelectedTool} selectedRegion={selectedRegion} setSelectedRegion={setSelectedRegion} />,
+        <SelectTool key="selectTool" selectedTool={selectedTool} setSelectedTool={setSelectedTool} selectedRegion={selectedRegion} setSelectedRegion={setSelectedRegion} selectedBookmakers={selectedBookmakers} setSelectedBookmakers={setSelectedBookmakers}/>,
         <SelectSports key="selectRegionSports" sports={sports} selectedSports={selectedSports} setSelectedSports={setSelectedSports} />,
-        <Arbitrage key="arbitrage" APIKey={APIKey} sports={selectedSports} region={selectedRegion} validatedAPI={sports !== null} tool={selectedTool} />,
+        <Arbitrage key="arbitrage" APIKey={APIKey} sports={selectedSports} region={selectedRegion} bookmakers={selectedBookmakers} validatedAPI={sports !== null} tool={selectedTool} clickMatch={clickMatch} />,
+        <Calculate match={selectedMatch} />
     ]
 
     function handleNext() {
@@ -62,8 +73,15 @@ function App() {
     }
 
     return (
-        isMobile ? (
-            <></>
+        useMediaQuery('(max-width:600px)') ? (
+            <Box sx={{ p: 2, overflowY: 'auto', maxHeight: '100vh' }}>
+                <APICard key="APICard" APIKey={APIKey} setAPIKey={setAPIKey} setSports={updateSelectedSports} />,
+                <SelectTool key="selectTool" selectedTool={selectedTool} setSelectedTool={setSelectedTool} selectedRegion={selectedRegion} setSelectedRegion={setSelectedRegion} selectedBookmakers={selectedBookmakers} setSelectedBookmakers={setSelectedBookmakers}/>,
+                <SelectSports key="selectRegionSports" sports={sports} selectedSports={selectedSports} setSelectedSports={setSelectedSports} />,
+                <Arbitrage key="arbitrage" APIKey={APIKey} sports={selectedSports} region={selectedRegion} bookmakers={selectedBookmakers} validatedAPI={sports !== null} tool={selectedTool} clickMatch={clickMatch} />,
+                <Calculate match={selectedMatch} />
+                <Box sx={{ height: 30 }} />
+            </Box>
         ) : ( 
             <Box className='container'>
                 <Box className='nav-button left' role='button' aria-label='back' onClick={handleBack} sx={{ display: (currentIndex <= 0) ? 'none' : 'flex' }}>
@@ -84,7 +102,7 @@ function App() {
                     </Box>
                     )
                 })}
-                <Box className='nav-button right' role='button' aria-label='next' onClick={handleNext} sx={{ display: (currentIndex >= components.length - 1) ? 'none' : 'flex'}}>
+                <Box className='nav-button right' role='button' aria-label='next' onClick={handleNext} sx={{ display: (currentIndex >= components.length - 2) ? 'none' : 'flex'}}>
                     <Box className='nav-button right-background' sx={{ display: (currentIndex >= components.length - 1) ? 'none' : 'flex' }} />
                     <ArrowForwardIosIcon />
                 </Box>

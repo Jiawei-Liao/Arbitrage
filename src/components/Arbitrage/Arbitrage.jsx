@@ -1,18 +1,18 @@
 import React, { useState } from 'react'
-import { Paper, Typography, Box, Divider, Alert, LinearProgress, Button } from '@mui/material'
+import { Paper, Typography, Box, Divider, Alert, LinearProgress, Button, useMediaQuery } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
 import { findArbitrageOpportunities } from './utils'
 import ArbitrageCard from './ArbitrageCard'
 
-export default function Arbitrage({ APIKey, sports, region, validatedAPI, tool }) {
+export default function Arbitrage({ APIKey, sports, region, bookmakers, validatedAPI, tool, clickMatch }) {
     const [loading, setLoading] = useState(false)
     const [loadProgress, setLoadProgress] = useState(0)
     const [arbitrageOpportunities, setArbitrageOpportunities] = useState(null)
-
+    
     function displayCard(match) {
         switch (tool) {
             case 'arbitrage':
-                return <ArbitrageCard match={match} />
+                return <ArbitrageCard match={match} clickMatch={clickMatch} />
             default:
                 return null
         }
@@ -34,7 +34,8 @@ export default function Arbitrage({ APIKey, sports, region, validatedAPI, tool }
             for (let i = 0; i < sportsArray.length; i++) {
                 const sport = sportsArray[i]
                 try {
-                    const response = await fetch(`https://api.the-odds-api.com/v4/sports/${sport}/odds/?apiKey=${APIKey}&regions=${region}&markets=h2h,spreads&oddsFormat=decimal`)
+                    const bookmakersList = Array.from(bookmakers).join(',')
+                    const response = await fetch(`https://api.the-odds-api.com/v4/sports/${sport}/odds/?apiKey=${APIKey}&regions=${region}&markets=h2h,spreads&oddsFormat=decimal&bookmakers=${bookmakersList}`)
                     const data = await response.json()
                     for (const match of data) {
                         const newArbitrageOpportunity = findArbitrageOpportunities(match)
@@ -49,8 +50,8 @@ export default function Arbitrage({ APIKey, sports, region, validatedAPI, tool }
             }
             await new Promise(resolve => setTimeout(resolve, 1000))
             arbitrageOpportunitiesList.sort((a, b) => {
-                const profitA = parseFloat(a.bets.profitPercentage.replace("%", ""))
-                const profitB = parseFloat(b.bets.profitPercentage.replace("%", ""))
+                const profitA = parseFloat(a.profitPercentage.replace("%", ""))
+                const profitB = parseFloat(b.profitPercentage.replace("%", ""))
                 return profitB - profitA
             })
             setArbitrageOpportunities(arbitrageOpportunitiesList)
@@ -67,8 +68,8 @@ export default function Arbitrage({ APIKey, sports, region, validatedAPI, tool }
     }
 
     return (
-        <Paper elevation={5} sx={{ width: 500, maxHeight: 500, p: 3, display: 'flex', flexDirection: 'column', gap: 2, overflowY: 'auto', borderRadius: '12px', bgcolor: '#f5f5f5' }}>
-            <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>Step 5: Arbitrage Opportunities</Typography>
+        <Paper elevation={5} sx={{ maxWidth: 500, maxHeight: useMediaQuery('(max-width:600px)') ? 'none' : 500, p: 3, display: 'flex', flexDirection: 'column', gap: 2, overflowY: useMediaQuery('(max-width:600px)') ? 'visible' : 'auto', borderRadius: '12px', bgcolor: '#f5f5f5' }}>
+            <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>Step 6: Arbitrage Opportunities</Typography>
             <Divider />
             
             <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
@@ -101,11 +102,16 @@ export default function Arbitrage({ APIKey, sports, region, validatedAPI, tool }
                         </Alert>
                     </Box>
                 ) : (
-                    arbitrageOpportunities.map((match, index) => (
-                        <Box key={index}>
-                            {displayCard(match)}
-                        </Box>
-                    ))
+                    <>
+                        <Typography variant="body2" color="text.secondary" align="center">
+                            Click on a card to view betting calculations
+                        </Typography>
+                        {arbitrageOpportunities.map((match, index) => (
+                            <Box key={index}>
+                                {displayCard(match)}
+                            </Box>
+                        ))}
+                    </>
                 )
             )}
         </Paper>

@@ -10,9 +10,14 @@ Object.defineProperty(window, 'localStorage', {
 describe('SelectTool Component', () => {
     const setSelectedTool = jest.fn()
     const setSelectedRegion = jest.fn()
+    const setSelectedBookmakers = jest.fn()
+
+    const renderSelectTools = (selectedTool = 'arbitrage', selectedRegion = 'au', selectedBookmakers = new Set()) => {
+        render(<SelectTool selectedTool={selectedTool} setSelectedTool={setSelectedTool} selectedRegion={selectedRegion} setSelectedRegion={setSelectedRegion} selectedBookmakers={selectedBookmakers} setSelectedBookmakers={setSelectedBookmakers}/>)
+    }
 
     it('renders correctly', () => {
-        render(<SelectTool selectedTool='arbitrage' setSelectedTool={setSelectedTool} selectedRegion='au' setSelectedRegion={setSelectedRegion}/>)
+        renderSelectTools()
         expect(screen.getByText('Step 2: Select Betting Tool')).toBeInTheDocument()
         expect(screen.getByText('Arbitrage Betting')).toBeInTheDocument()
         expect(screen.getByText('Value Betting')).toBeInTheDocument()
@@ -21,7 +26,7 @@ describe('SelectTool Component', () => {
     })
 
     it('handles value button click', () => {
-        render(<SelectTool selectedTool='arbitrage' setSelectedTool={setSelectedTool} selectedRegion='au' setSelectedRegion={setSelectedRegion}/>)
+        renderSelectTools()
 
         const valueButton = screen.getByText('Value Betting')
         fireEvent.click(valueButton)
@@ -31,7 +36,7 @@ describe('SelectTool Component', () => {
     })
 
     it('handles arbitrage button click', () => {
-        render(<SelectTool selectedTool='value' setSelectedTool={setSelectedTool} selectedRegion='au' setSelectedRegion={setSelectedRegion}/>)
+        renderSelectTools('value')
 
         const arbitrageButton = screen.getByText('Arbitrage Betting')
         fireEvent.click(arbitrageButton)
@@ -41,7 +46,7 @@ describe('SelectTool Component', () => {
     })
 
     it('does not call setSelectedTool if button is already selected', () => {
-        render(<SelectTool selectedTool='arbitrage' setSelectedTool={setSelectedTool} selectedRegion='au' setSelectedRegion={setSelectedRegion}/>)
+        renderSelectTools()
 
         const arbitrageButton = screen.getByText('Arbitrage Betting')
         fireEvent.click(arbitrageButton)
@@ -50,7 +55,7 @@ describe('SelectTool Component', () => {
     })
 
     it('handles region button click', () => {
-        render(<SelectTool selectedTool='arbitrage' setSelectedTool={setSelectedTool} selectedRegion='au' setSelectedRegion={setSelectedRegion}/>)
+        renderSelectTools()
 
         const USAButton = screen.getByText('USA')
         fireEvent.click(USAButton)
@@ -60,7 +65,7 @@ describe('SelectTool Component', () => {
     })
 
     it('does not call setSelectedRegion if button is already selected', () => {
-        render(<SelectTool selectedTool='arbitrage' setSelectedTool={setSelectedTool} selectedRegion='au' setSelectedRegion={setSelectedRegion}/>)
+        renderSelectTools()
 
         const AUButton = screen.getByText('Australia')
         fireEvent.click(AUButton)
