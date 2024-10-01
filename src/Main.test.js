@@ -1,15 +1,15 @@
 import { render, screen, fireEvent } from '@testing-library/react'
-import App from './App'
+import Main from './Main'
 
-describe('App', () => {
+describe('Main', () => {
     it('renders correctly', () => {
-        render(<App />)
+        render(<Main />)
         const step1Carousel = screen.getByText(/Step 1: Enter an API key/i)
         expect(step1Carousel).toBeInTheDocument()
     })
 
     it('moves the carousel', () => {
-        render(<App />)
+        render(<Main />)
         const nextButton = screen.getByRole('button', {name: /next/i})
         fireEvent.click(nextButton)
         const step2Carousel = screen.getByText(/Step 2: Select Betting Tool/i)
